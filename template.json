@@ -1,0 +1,82 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Ubuntu_64",
+      "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04-beta2-server-amd64.iso",
+      "iso_checksum": "0f948fea5a587a62a873d2c001948a6ffbda20b67b05a468006caf9dfd41bcd7",
+      "iso_checksum_type": "sha256",
+      "vm_name": "packer-ubuntu-16.04-amd64",
+      "disk_size": "{{ user `disk_size` }}",
+      "headless": "{{ user `headless` }}",
+      "boot_wait": "5s",
+      "http_directory": "http",
+      "boot_command": [
+        "<enter><wait>",
+        "<f6><esc>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz ",
+        "initrd=/install/initrd.gz ",
+        "auto=true ",
+        "priority=critical ",
+        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        "<wait><enter>"
+      ],
+      "ssh_wait_timeout": "30m",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "shutdown_command": "sudo systemctl poweroff",
+      "vboxmanage": [
+        ["modifyvm", "{{ .Name }}", "--memory", "{{ user `memory` }}"],
+        ["modifyvm", "{{ .Name }}", "--cpus", "{{ user `cpus` }}"]
+      ]
+    }    
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": "scripts/install.sh"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/playbook.yml",
+      "playbook_dir": "ansible"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "output": "ubuntu-16.04-amd64.box",
+        "keep_input_artifact": false
+      },
+      {
+        "type": "atlas",
+        "artifact": "s12v/xenial64",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "version": "20160401",
+          "description": "**Ubuntu 16.04 beta 2**. Baked with https://github.com/s12v/xenial\n - Ansible, Puppet, Chef\n - VBoxGuestAdditions 5.0.x\n - 80G disk",
+          "created_at": "{{timestamp}}",
+          "provider": "virtualbox"
+        }
+      }
+    ]
+  ],
+  "variables": {
+    "cpus": "1",
+    "memory": "512",
+    "hostname": "xenial",
+    "headless": "false",
+    "disk_size": "81920"
+  }
+}
