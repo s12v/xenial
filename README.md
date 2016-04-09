@@ -5,7 +5,7 @@ Standard images from http://releases.ubuntu.com/16.04/ with:
  - VBoxGuestAdditions 5.0.x
  - 80G disk
  - Predictable network interface names turned OFF (uses old style eth0, eth1)
- - Vagrant user and login (ssh key, vagrant/vagrant)
+ - `vagrant` user and password
 
 ## How to bake:
 
