@@ -27,6 +27,7 @@
         "initrd=/install/initrd.gz ",
         "auto=true ",
         "priority=critical ",
+        "net.ifnames=0 ",
         "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
         "<wait><enter>"
       ],
@@ -64,8 +65,8 @@
         "artifact": "s12v/xenial64",
         "artifact_type": "vagrant.box",
         "metadata": {
-          "version": "20160401",
-          "description": "**Ubuntu 16.04 beta 2**. Baked with https://github.com/s12v/xenial\n - Ansible, Puppet, Chef\n - VBoxGuestAdditions 5.0.x\n - 80G disk",
+          "version": "20160407",
+          "description": "**Ubuntu 16.04 (Xenial Xerus) Beta 2**. Baked with https://github.com/s12v/xenial\n - Ansible, Puppet, Chef\n - VBoxGuestAdditions 5.0.x\n - 80G disk\n - Predictable network interface names turned off",
           "created_at": "{{timestamp}}",
           "provider": "virtualbox"
         }
