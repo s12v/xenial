@@ -66,7 +66,7 @@
         "artifact_type": "vagrant.box",
         "metadata": {
           "version": "20160904",
-          "description": "**Ubuntu 16.04 (Xenial Xerus)**. Baked with https://github.com/s12v/xenial\n - Ansible, Puppet, Chef\n - VBoxGuestAdditions 5.0.x\n - 80G disk\n - Predictable network interface names turned off",
+          "description": "**Ubuntu 16.04.1 (Xenial Xerus)**. Baked with https://github.com/s12v/xenial\n - Ansible, Puppet, Chef\n - VBoxGuestAdditions 5.0.x\n - 80G disk\n - Predictable network interface names turned off",
           "created_at": "{{timestamp}}",
           "provider": "virtualbox"
         }
